@@ -1,0 +1,17 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b85eb08e8abd4fc46935180899613e9d, type: 3}
+  m_Name: Sword_Handle
+  m_EditorClassIdentifier: 
+  <ItemMesh>k__BackingField: {fileID: 4912848177570868238, guid: c8056f847eed80d429431d9cb134a5ab, type: 3}
+  <Material>k__BackingField: {fileID: -2073617408647400708, guid: c8056f847eed80d429431d9cb134a5ab, type: 3}
+  typeData: 1

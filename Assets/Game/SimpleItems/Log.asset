@@ -1,0 +1,28 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b85eb08e8abd4fc46935180899613e9d, type: 3}
+  m_Name: Log
+  m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes: []
+  <ItemMesh>k__BackingField: {fileID: -293502825896984990, guid: 8ea9305aa6d4fb44795e788cf2219da2, type: 3}
+  <Material>k__BackingField: {fileID: -3227207761585721343, guid: 8ea9305aa6d4fb44795e788cf2219da2, type: 3}
+  allowedFolderPath: Assets/Game/Models
+  Model: {fileID: 919132149155446097, guid: 8ea9305aa6d4fb44795e788cf2219da2, type: 3}
+  typeData: 5
