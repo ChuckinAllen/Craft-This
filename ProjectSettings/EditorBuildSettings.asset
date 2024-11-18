@@ -8,4 +8,6 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Game/Scenes/Crafting.unity
     guid: d5494ed198ab75749927465ffb4d62e6
-  m_configObjects: {}
+  m_configObjects:
+    com.unity.adaptiveperformance.simulator.provider_settings: {fileID: 11400000, guid: 9c578dd2f6a23ea42b6b9a971b9be667, type: 2}
+  m_UseUCBPForAssetBundles: 0
