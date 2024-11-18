@@ -44,8 +44,8 @@ public class StartGame : MonoBehaviour
 
             Vector2 positionOffset = new Vector2(offSet,0);
 
-            createItem.CreateNewItem(ingredent, transform);
-            //createItem.CreateNewItem(ingredent, positionOffset, true);
+            //createItem.CreateNewItem(ingredent, transform);
+            createItem.CreateNewItem(ingredent, positionOffset, true);
             //item.CreateNewItem(ingredent, pos);
             //GameObject craftableItemsInstance = Instantiate(ingredent);
             //craftableItemsInstance.transform.SetParent(transform);
