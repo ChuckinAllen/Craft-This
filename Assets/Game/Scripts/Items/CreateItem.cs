@@ -1,5 +1,7 @@
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.UIElements;
 
 //ToDo every time this is called add the item to the playerInvantory
 // or add it to the world.
@@ -11,12 +13,14 @@ namespace PoschPlus.CraftingSystem
 {
     public class CreateItem : MonoBehaviour
     {
+        [SerializeField] private Shader shader;
         [SerializeField] private Vector3 defaultScaleOfItemToCreate = new Vector2(100,100);
         [SerializeField] private Inventory inventory;
         //[SerializeField] private RenderTexture newRenderTexture;
         [SerializeField] private Transform spawnPositionUI;
-        [SerializeField] private Transform spawnPositionItems;
+        [SerializeField] private Transform itemToCraftSpawnPosition;
         [SerializeField] private Canvas itemCanvas;
+        [SerializeField] private LayerMask ignoreRaycastLayer;
         //[SerializeField] private Transform ItemSpawnPosition;
 
         [SerializeField] private GameObject itemPrefabUI;
@@ -24,26 +28,105 @@ namespace PoschPlus.CraftingSystem
 
         //[SerializeField] private LayerMask dragLayer; //dropLayer
 
-
-        //WIP 
-        public void CreateNewItem(Ingredient ingredient, Transform vectorPos)
+        public void CreateNewItem(Ingredient ingredient, bool randomPos)
         {
-            //New GameObject
-            GameObject instance = new GameObject(ingredient.name);
-            ItemUI itemUI = instance.AddComponent<ItemUI>();
+            GameObject instance = Instantiate(itemPrefabUI, spawnPositionUI);
+            instance.name = ingredient.name;
+            inventory.AddItemToInventory(ingredient);
 
-            //ToDo add text that is set to active when hovering over item 
-            //itemUI.itemName.text = instance.name;
+            Item itemData = instance.AddComponent<Item>();
+            itemData.UpdateItemData(ingredient);
 
-            //RectTransform
+            ItemUI itemUI = instance.GetComponent<ItemUI>();
+            itemUI.itemName.text = ingredient.name;
 
-            GameObject item = Instantiate(ingredient.Model, vectorPos);
 
-            item.transform.localScale = new Vector3 (10,10,10);
+            if (ingredient.Model != null)
+            {
+                GameObject item = Instantiate(ingredient.Model);
+                item.transform.parent = itemUI.itemOrImageTransform;
+                item.transform.localPosition = Vector3.zero;
+                item.transform.localScale = Vector3.one;
 
-            item.transform.parent = vectorPos;
+                MeshRenderer meshRenderer = item.GetComponent<MeshRenderer>();
+                Material material = ingredient.Material;
+
+                SetMaterial(meshRenderer, material);
+
+                if (randomPos == false)
+                {
+                    item.transform.localPosition = new Vector3(0, -0.5f, 0);
+                    item.transform.rotation = new Quaternion(0, 90, 0, 0);
+                    
+                }
+            }
+
+            instance.transform.localPosition = Vector3.zero;
+
+            if(randomPos)
+            {
+                SetItemUIPosition(Vector2.zero, instance, randomPos);
+            }
         }
 
+        private void SetItemUIPosition(Vector2 pos, GameObject instance, bool randomPos)
+        {
+            if (randomPos)
+            {
+                // Get the canvas RectTransform to define boundaries
+                RectTransform canvasRectTransform = itemCanvas.GetComponent<RectTransform>();
+
+                // Define canvas boundaries (local space)
+                Vector2 min = canvasRectTransform.rect.min;
+                Vector2 max = canvasRectTransform.rect.max;
+
+                // Generate random position within canvas bounds
+                float randomX = Random.Range(min.x, max.x);
+                float randomY = Random.Range(min.y, max.y);
+
+                // Set the item's position
+                instance.transform.localPosition = new Vector3(randomX, randomY, 0f);
+            }
+            else
+            {
+                // Set the item's position directly to the provided position
+                instance.transform.position = pos;
+            }
+        }
+
+        public void CreateNewItemToCraft(Ingredient ingredient)
+        {
+            inventory.AddItemToInventory(ingredient);
+
+            GameObject instance = Instantiate(itemPrefabUI, itemToCraftSpawnPosition);
+            instance.name = ingredient.name;
+            instance.GetComponent<DragAndDropUI>().enabled = false;
+            instance.layer = ignoreRaycastLayer.value >> 1;
+
+            var itemData = instance.AddComponent<Item>();
+            itemData.UpdateItemData(ingredient);
+
+            if (ingredient.Model != null)
+            {
+                GameObject item = Instantiate(ingredient.Model);
+                ItemUI itemUI = instance.GetComponent<ItemUI>();
+
+                itemUI.itemName.enabled = false;
+
+                item.transform.parent = itemUI.itemOrImageTransform;
+                item.transform.rotation = new Quaternion(0, 90, 0, 0);
+                item.transform.localScale = Vector3.one;
+
+                item.transform.localPosition = new Vector3(0, -0.5f, 0);
+
+                MeshRenderer meshRenderer = item.GetComponent<MeshRenderer>();
+                SetDarkMaterial(meshRenderer);
+            }
+        }
+
+
+
+        /*
         public void CreateNewItem(Ingredient ingredient, Transform itemTransform, bool randomPos, bool itemToCraft)
         {
             RenderTexture newRenderTexture = CreateNewRenderTexture(ingredient);
@@ -191,15 +274,22 @@ namespace PoschPlus.CraftingSystem
 
             return item;
         }
-
+        */
         private void SetDarkMaterial(MeshRenderer meshRenderer)
         {
             // Create a new material with a black color
-            Material blackMaterial = new Material(Shader.Find("Standard"));
+
+            Shader localShader = Shader.Find("Universal Render Pipeline/Lit");
+            Material blackMaterial = new Material(localShader);
             blackMaterial.color = Color.black;
 
             // Set the material of the MeshRenderer to the black material
             meshRenderer.material = blackMaterial;
+        }
+
+        private void SetMaterial(MeshRenderer meshRenderer, Material material)
+        {
+            meshRenderer.material = material;
         }
 
         private GameObject SpawnNewItemUI(Ingredient ingredient, Vector2 pos,
@@ -207,7 +297,7 @@ namespace PoschPlus.CraftingSystem
         {
             GameObject instance = CreateUI(ingredient);
 
-            SetItemUIPosition(pos, instance, randomPos);
+            SetItemUIPositionOld(pos, instance, randomPos);
 
             UpdateUI(ingredient, renderTexture, instance);
 
@@ -227,12 +317,12 @@ namespace PoschPlus.CraftingSystem
         private void UpdateUI(Ingredient ingredient, RenderTexture renderTexture, GameObject instance)
         {
             ItemUI imageUI = instance.GetComponent<ItemUI>();
-            var imageTransform = imageUI.itemImageTransform;
+            var imageTransform = imageUI.itemOrImageTransform;
             imageUI.itemName.text = ingredient.name;
             imageTransform.GetComponent<RawImage>().texture = renderTexture;
         }
 
-        private void SetItemUIPosition(Vector2 pos, GameObject instance, bool randomPos)
+        private void SetItemUIPositionOld(Vector2 pos, GameObject instance, bool randomPos)
         {
             if (randomPos)
             {

@@ -8,7 +8,7 @@ public class StartGame : MonoBehaviour
 {
     [SerializeField] public Recipe startingRecipe;
     [SerializeField] private CreateItem createItem;
-    [SerializeField] private GameObject craftingItem_UI;
+    //[SerializeField] private GameObject craftingItem_UI;
 
     [HorizontalGroup("Dev")]
     [SerializeField] private List<Ingredient> startingIngredentList
@@ -44,8 +44,8 @@ public class StartGame : MonoBehaviour
 
             Vector2 positionOffset = new Vector2(offSet,0);
 
-            //createItem.CreateNewItem(ingredent, transform);
-            createItem.CreateNewItem(ingredent, positionOffset, true);
+            createItem.CreateNewItem(ingredent, true);
+            //createItem.CreateNewItem(ingredent, positionOffset, true);
             //item.CreateNewItem(ingredent, pos);
             //GameObject craftableItemsInstance = Instantiate(ingredent);
             //craftableItemsInstance.transform.SetParent(transform);
@@ -62,7 +62,8 @@ public class StartGame : MonoBehaviour
 
                 Vector2 posOffset = new Vector2(offSet,0);
 
-                createItem.CreateNewItem(ingredent, posOffset, true);
+                //createItem.CreateNewItem(ingredent, posOffset, true);
+
                 //item.CreateNewItem(ingredent, pos);
                 //GameObject craftableItemsInstance = Instantiate(ingredent);
                 //craftableItemsInstance.transform.SetParent(transform);

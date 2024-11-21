@@ -22,6 +22,7 @@ MonoBehaviour:
     PrefabModifications: []
     SerializationNodes: []
   <ItemMesh>k__BackingField: {fileID: 5331704110293877250, guid: fbd7127c1a3a5de4d8c8cfb78d9ef8c7, type: 3}
-  <Material>k__BackingField: {fileID: 7326366617564748811, guid: fbd7127c1a3a5de4d8c8cfb78d9ef8c7, type: 3}
+  <Material>k__BackingField: {fileID: 2100000, guid: e47e97c50ce8e0c488dfdf676dd59b3a, type: 2}
   Model: {fileID: 919132149155446097, guid: fbd7127c1a3a5de4d8c8cfb78d9ef8c7, type: 3}
   typeData: 1
+  allowedFolderPath: Assets/Models

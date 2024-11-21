@@ -31,7 +31,9 @@ public class ItemToCraft : MonoBehaviour
         //GameObject instance = Instantiate(itemThatNeedsToBeCrafted);
 
         ingredient = startGame.startingRecipe.CraftedItems;
-        createItem.CreateNewItem(ingredient, itemContainerTransform, false, true);
+        Debug.LogWarning("Craftable Item");
+        //createItem.CreateNewItem(ingredient, itemContainerTransform, false, true);
+        createItem.CreateNewItemToCraft(ingredient);
         
     }
 

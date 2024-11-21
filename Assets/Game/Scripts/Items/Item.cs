@@ -15,7 +15,7 @@ public class Item : MonoBehaviour
 
     public void UpdateItemData(Ingredient data)
     {
-        //Data = data;
+        Data = data;
     }
 
 

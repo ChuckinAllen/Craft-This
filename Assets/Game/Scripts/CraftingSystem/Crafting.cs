@@ -197,7 +197,8 @@ namespace PoschPlus.CraftingSystem
         {
             // Add the newly crafted item to the player's inventory
 
-            createItem.CreateNewItem(recipe.CraftedItems, spawnPos, false, false);
+            //createItem.CreateNewItem(recipe.CraftedItems, spawnPos, false, false);
+            createItem.CreateNewItem(recipe.CraftedItems, false);
             Debug.LogWarning("Added crafted item to inventory.");
         }
 
