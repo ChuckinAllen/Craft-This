@@ -13,7 +13,9 @@ namespace PoschPlus.CraftingSystem
 {
     public class CreateItem : MonoBehaviour
     {
+        [SerializeField] private Material blackMaterial;
         [SerializeField] private Shader shader;
+        [SerializeField] private float defaultItemSize = 0.8f;
         [SerializeField] private Vector3 defaultScaleOfItemToCreate = new Vector2(100,100);
         [SerializeField] private Inventory inventory;
         //[SerializeField] private RenderTexture newRenderTexture;
@@ -25,6 +27,8 @@ namespace PoschPlus.CraftingSystem
 
         [SerializeField] private GameObject itemPrefabUI;
 
+        [SerializeField] private bool disableItemNames = true;
+
 
         //[SerializeField] private LayerMask dragLayer; //dropLayer
 
@@ -32,40 +36,66 @@ namespace PoschPlus.CraftingSystem
         {
             GameObject instance = Instantiate(itemPrefabUI, spawnPositionUI);
             instance.name = ingredient.name;
+            Debug.Log($"Item name: {instance.name}");
+
             inventory.AddItemToInventory(ingredient);
 
             Item itemData = instance.AddComponent<Item>();
             itemData.UpdateItemData(ingredient);
 
             ItemUI itemUI = instance.GetComponent<ItemUI>();
-            itemUI.itemName.text = ingredient.name;
+            DragAndDropUI dragAndDrop = instance.GetComponent<DragAndDropUI>();
+            dragAndDrop.canvas = itemCanvas;
+            ClampToCanvas clampToCanvas = instance.GetComponent<ClampToCanvas>();
+            clampToCanvas.canvasRectTransform = itemCanvas.GetComponent<RectTransform>();
 
-
-            if (ingredient.Model != null)
+            if(disableItemNames == true )
             {
-                GameObject item = Instantiate(ingredient.Model);
-                item.transform.parent = itemUI.itemOrImageTransform;
-                item.transform.localPosition = Vector3.zero;
-                item.transform.localScale = Vector3.one;
-
-                MeshRenderer meshRenderer = item.GetComponent<MeshRenderer>();
-                Material material = ingredient.Material;
-
-                SetMaterial(meshRenderer, material);
-
-                if (randomPos == false)
-                {
-                    item.transform.localPosition = new Vector3(0, -0.5f, 0);
-                    item.transform.rotation = new Quaternion(0, 90, 0, 0);
-                    
-                }
+                itemUI.itemName.text = "";
             }
+            else
+            {
+                itemUI.itemName.text = ingredient.name;
+            }
+            
+           
 
             instance.transform.localPosition = Vector3.zero;
 
-            if(randomPos)
+            if (randomPos)
             {
                 SetItemUIPosition(Vector2.zero, instance, randomPos);
+            }
+
+            if (ingredient.Model == null)
+            {
+                Debug.Log($"Model:{ingredient.Model}");
+                return;
+            }
+            GameObject item = Instantiate(ingredient.Model);
+            item.transform.parent = itemUI.itemOrImageTransform;
+            Debug.Log($"Parent {item.transform.parent}");
+
+            item.transform.localPosition = Vector3.zero;
+            Debug.Log($"Local Pos {item.transform.localPosition}");
+            Debug.Log($"Global Pos {item.transform.position}");
+
+            item.transform.localScale = new Vector3(defaultItemSize, defaultItemSize, defaultItemSize);
+            Debug.Log($"local Scale {item.transform.localScale}");
+            Debug.Log($"Global Scale {item.transform.lossyScale}");
+
+            MeshRenderer meshRenderer = item.GetComponent<MeshRenderer>();
+            Debug.Log(meshRenderer);
+
+            Material material = ingredient.Material;
+            Debug.Log(material);
+
+            SetMaterial(meshRenderer, material);
+
+            if (randomPos == false)
+            {
+                //item.transform.localPosition = new Vector3(0, -0.5f, 0);
+                //item.transform.rotation = new Quaternion(0, 90, 0, 0);
             }
         }
 
@@ -114,10 +144,10 @@ namespace PoschPlus.CraftingSystem
                 itemUI.itemName.enabled = false;
 
                 item.transform.parent = itemUI.itemOrImageTransform;
-                item.transform.rotation = new Quaternion(0, 90, 0, 0);
-                item.transform.localScale = Vector3.one;
+                //item.transform.rotation = new Quaternion(0, 90, 0, 0);
+                item.transform.localScale = new Vector3(defaultItemSize, defaultItemSize, defaultItemSize);
 
-                item.transform.localPosition = new Vector3(0, -0.5f, 0);
+                item.transform.localPosition = new Vector3(0, 0, 0);
 
                 MeshRenderer meshRenderer = item.GetComponent<MeshRenderer>();
                 SetDarkMaterial(meshRenderer);
@@ -279,9 +309,9 @@ namespace PoschPlus.CraftingSystem
         {
             // Create a new material with a black color
 
-            Shader localShader = Shader.Find("Universal Render Pipeline/Lit");
-            Material blackMaterial = new Material(localShader);
-            blackMaterial.color = Color.black;
+            //Shader localShader = Shader.Find("Universal Render Pipeline/Lit");
+            //Material blackMaterial = new Material(localShader);
+            //blackMaterial.color = Color.black;
 
             // Set the material of the MeshRenderer to the black material
             meshRenderer.material = blackMaterial;

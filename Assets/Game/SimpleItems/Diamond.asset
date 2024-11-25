@@ -1,0 +1,28 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b85eb08e8abd4fc46935180899613e9d, type: 3}
+  m_Name: Diamond
+  m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes: []
+  <ItemMesh>k__BackingField: {fileID: 2401994324257950250, guid: 7ae597946b59b01449c7bfb789c0cdfb, type: 3}
+  <Material>k__BackingField: {fileID: 2100000, guid: 6713bc6ce607e3e4aa3c9303047aec8c, type: 2}
+  Model: {fileID: 7138457629022119156, guid: 771f60bb5adc9bf4dbe481ca60482ca0, type: 3}
+  typeData: 5
+  allowedFolderPath: Assets/Models

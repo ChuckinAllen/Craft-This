@@ -3,12 +3,12 @@ using UnityEngine;
 public class ClampToCanvas : MonoBehaviour
 {
     private RectTransform rectTransform;
-    private RectTransform canvasRectTransform;
+    public RectTransform canvasRectTransform;
 
     void Awake()
     {
         rectTransform = GetComponent<RectTransform>();
-        canvasRectTransform = FindFirstObjectByType<Canvas>().GetComponent<RectTransform>();
+        //canvasRectTransform = FindFirstObjectByType<Canvas>().GetComponent<RectTransform>();
     }
 
     void LateUpdate()

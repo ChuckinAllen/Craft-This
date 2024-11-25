@@ -7,7 +7,7 @@ using UnityEngine.UI;
 public class DragAndDropUI : MonoBehaviour, IPointerDownHandler, IDragHandler, IPointerUpHandler
 {
     private RectTransform rectTransform;
-    private Canvas canvas;
+    
     private CanvasGroup canvasGroup;
 
     private Vector2 originalPosition;
@@ -21,12 +21,16 @@ public class DragAndDropUI : MonoBehaviour, IPointerDownHandler, IDragHandler, I
     [SerializeField]
     public Transform parentTransform; // Gets set at spawn
 
+    public Canvas canvas;
+
     [SerializeField, ReadOnly]
     private Vector2 currentGridPos;
 
+    [SerializeField] private bool canDrop = true;
+
     private void Awake()
     {
-        canvas = FindAnyObjectByType<Canvas>(); // Get the canvas in the scene
+        //canvas = FindAnyObjectByType<Canvas>(); // Get the canvas in the scene
         rectTransform = GetComponent<RectTransform>();
 
         // Add and initialize the CanvasGroup if it doesn't exist
@@ -82,39 +86,35 @@ public class DragAndDropUI : MonoBehaviour, IPointerDownHandler, IDragHandler, I
 
     public void OnPointerUp(PointerEventData eventData)
     {
-        // Raycast to detect where the item is dropped
-        RaycastResult raycastResult = eventData.pointerCurrentRaycast;
-
-        if (raycastResult.gameObject == null)
+        if(canDrop)
         {
-            // If no valid drop zone is found, keep the object at the drop location
-            canvasGroup.alpha = 1f;
-            canvasGroup.blocksRaycasts = true;
-            return;
+            // Raycast to detect where the item is dropped
+            RaycastResult raycastResult = eventData.pointerCurrentRaycast;
+
+            Debug.Log(raycastResult.gameObject.name);
+
+            string itemName = gameObject.name;
+
+            // Handle drop on the destination layer
+            if (IsLayer(raycastResult.gameObject.layer, destinationLayer))
+            {
+                string parentItemName = raycastResult.gameObject.transform.parent.name;
+                Vector2 gridPosition = ConvertStringToVector2(parentItemName);
+
+                // Move the item to the destination and update the grid
+                SetTransform(raycastResult.gameObject.transform);
+                currentGridPos = gridPosition;
+                grid.AddGameObjectsToGridUI(itemName, gridPosition);
+                grid.AddItemToGridUI(gameObject);
+            }
+            // Handle drop on the item-to-craft layer
+            else if (IsLayer(raycastResult.gameObject.layer, itemToCraftLayer))
+            {
+                SetTransform(raycastResult.gameObject.transform);
+                ItemToCraft.itemIsCorrect?.Invoke(itemName); // Check if the item is correct
+            }
         }
 
-        Debug.Log(raycastResult.gameObject.name);
-
-        string itemName = gameObject.name;
-
-        // Handle drop on the destination layer
-        if (IsLayer(raycastResult.gameObject.layer, destinationLayer))
-        {
-            string parentItemName = raycastResult.gameObject.transform.parent.name;
-            Vector2 gridPosition = ConvertStringToVector2(parentItemName);
-
-            // Move the item to the destination and update the grid
-            SetTransform(raycastResult.gameObject.transform);
-            currentGridPos = gridPosition;
-            grid.AddGameObjectsToGridUI(itemName, gridPosition);
-            grid.AddItemToGridUI(gameObject);
-        }
-        // Handle drop on the item-to-craft layer
-        else if (IsLayer(raycastResult.gameObject.layer, itemToCraftLayer))
-        {
-            SetTransform(raycastResult.gameObject.transform);
-            ItemToCraft.itemIsCorrect?.Invoke(itemName); // Check if the item is correct
-        }
 
         // Restore the original appearance
         canvasGroup.alpha = 1f;
