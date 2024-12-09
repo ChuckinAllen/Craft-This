@@ -1,7 +1,10 @@
+using TMPro;
 using UnityEngine;
 
 public class ShaderSwaper : MonoBehaviour
 {
+    [SerializeField] private TextMeshProUGUI applicationTypeText;
+
     [SerializeField] Material Web;
     [SerializeField] Material Mobile;
 
@@ -10,11 +13,15 @@ public class ShaderSwaper : MonoBehaviour
     {
         if (Application.isMobilePlatform)
         {
-            gameObject.GetComponent<Renderer>().material = Mobile;
+            //gameObject.GetComponent<Renderer>().material = Mobile;
+
+            applicationTypeText.text = "Application: Mobile";
         }
         else
         {
-            gameObject.GetComponent<Renderer>().material = Web;
+            //gameObject.GetComponent<Renderer>().material = Web;
+
+            applicationTypeText.text = "Application: Web";
         }
     }
 
