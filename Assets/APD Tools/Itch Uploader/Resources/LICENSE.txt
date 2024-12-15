@@ -1,0 +1,8 @@
+Copyright © aPriori Digital Ltd.
+All rights reserved.
+
+This software is provided "as is" and without warranty. 
+You agree to indemnify aPriori Digital Ltd. (including its employees) against any issue(s) which arise due or undue to its use.
+
+The use of this software is licensed on a "per seat" basis, and you agree not to share or distribute it in any way other than for your own personal use.
+

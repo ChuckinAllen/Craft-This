@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: 472fcd7a750cdf74abf2de5ef551aea7
+DefaultImporter:
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 197531
+  packageName: itch.io Build Uploader
+  packageVersion: 1.0
+  assetPath: Assets/APD Tools/Itch Uploader/Resources/README.pdf
+  uploadId: 440235

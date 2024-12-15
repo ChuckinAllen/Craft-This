@@ -26,7 +26,7 @@ public class StartGame : MonoBehaviour
     private float offSet;
 
     // Start is called before the first frame update
-    void Start()
+    public void StartTheGame()
     {
         /*Spawn Item to craft
          * Set the item in the craft pos

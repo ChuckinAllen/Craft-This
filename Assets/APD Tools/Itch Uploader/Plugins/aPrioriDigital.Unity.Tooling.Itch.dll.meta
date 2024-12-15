@@ -1,0 +1,40 @@
+fileFormatVersion: 2
+guid: 3dd4aba3693a13b499749eaf3e799d2b
+PluginImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  iconMap: {}
+  executionOrder: {}
+  defineConstraints: []
+  isPreloaded: 0
+  isOverridable: 0
+  isExplicitlyReferenced: 0
+  validateReferences: 1
+  platformData:
+  - first:
+      Any: 
+    second:
+      enabled: 1
+      settings: {}
+  - first:
+      Editor: Editor
+    second:
+      enabled: 0
+      settings:
+        DefaultValueInitialized: true
+  - first:
+      Windows Store Apps: WindowsStoreApps
+    second:
+      enabled: 0
+      settings:
+        CPU: AnyCPU
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 197531
+  packageName: itch.io Build Uploader
+  packageVersion: 1.0
+  assetPath: Assets/APD Tools/Itch Uploader/Plugins/aPrioriDigital.Unity.Tooling.Itch.dll
+  uploadId: 440235

@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: 098dedec2d9bcdf4b98362313e63df5f
+TextScriptImporter:
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 197531
+  packageName: itch.io Build Uploader
+  packageVersion: 1.0
+  assetPath: Assets/APD Tools/Itch Uploader/Resources/LICENSE.txt
+  uploadId: 440235

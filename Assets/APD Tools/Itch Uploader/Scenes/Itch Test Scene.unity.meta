@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: 9e7ea7321c1c81f40b762acbe5e3441f
+DefaultImporter:
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 197531
+  packageName: itch.io Build Uploader
+  packageVersion: 1.0
+  assetPath: Assets/APD Tools/Itch Uploader/Scenes/Itch Test Scene.unity
+  uploadId: 440235

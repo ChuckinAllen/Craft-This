@@ -7,7 +7,9 @@ public class SetFps : MonoBehaviour
 {
     [SerializeField] private TextMeshProUGUI fpsText;
 
-    [SerializeField] private float deltaTime;
+    [SerializeField] private float fps;
+
+    private float deltaTime;
 
     // Start is called before the first frame update
     void Awake()
