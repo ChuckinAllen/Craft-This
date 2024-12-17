@@ -85,7 +85,7 @@ MonoBehaviour:
     - Name: 
       Entry: 8
       Data: 
-  <CraftedItems>k__BackingField: {fileID: 0}
+  <CraftedItems>k__BackingField: {fileID: 11400000, guid: 467d70eeccb1ef34a9525095f04ddb44, type: 2}
   <CraftedItemCount>k__BackingField: 1
   gridX: 3
   gridY: 3

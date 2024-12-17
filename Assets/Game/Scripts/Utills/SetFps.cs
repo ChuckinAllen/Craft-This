@@ -7,7 +7,7 @@ public class SetFps : MonoBehaviour
 {
     [SerializeField] private TextMeshProUGUI fpsText;
 
-    [SerializeField] private float fps;
+    [SerializeField] private float fps = 60;
 
     private float deltaTime;
 

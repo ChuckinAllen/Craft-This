@@ -28,19 +28,24 @@ public class DragAndDropUI : MonoBehaviour, IPointerDownHandler, IDragHandler, I
 
     [SerializeField] private bool canDrop = true;
 
+    [SerializeField] private ClampToCanvas clampToCanvas;
+
+
+
     private void Awake()
     {
         //canvas = FindAnyObjectByType<Canvas>(); // Get the canvas in the scene
         rectTransform = GetComponent<RectTransform>();
 
         // Add and initialize the CanvasGroup if it doesn't exist
-        canvasGroup = gameObject.AddComponent<CanvasGroup>();
-        canvasGroup = gameObject.GetComponent<CanvasGroup>();
+        canvasGroup = gameObject.AddComponent<CanvasGroup>().GetComponent<CanvasGroup>();
 
         //grid = FindFirstObjectByType<CraftingGrid>();
         grid = FindAnyObjectByType<CraftingGrid>();
 
         parentTransform = transform.parent;
+
+        clampToCanvas = GetComponent<ClampToCanvas>();
     }
 
     public void OnPointerDown(PointerEventData eventData)
@@ -81,20 +86,28 @@ public class DragAndDropUI : MonoBehaviour, IPointerDownHandler, IDragHandler, I
             out Vector3 worldMousePos))
         {
             rectTransform.position = worldMousePos + mouseOffset;
+
+            clampToCanvas.enabled = true;
         }
     }
 
     public void OnPointerUp(PointerEventData eventData)
     {
-        if(canDrop)
+        clampToCanvas.enabled = false;
+        // Restore the original appearance
+        canvasGroup.alpha = 1f;
+        canvasGroup.blocksRaycasts = true;
+
+        if (canDrop)
         {
             // Raycast to detect where the item is dropped
             RaycastResult raycastResult = eventData.pointerCurrentRaycast;
 
-            Debug.Log(raycastResult.gameObject.name);
+            //Debug.Log(raycastResult.gameObject.name);
 
             string itemName = gameObject.name;
 
+            if(raycastResult.gameObject == null) { return; }
             // Handle drop on the destination layer
             if (IsLayer(raycastResult.gameObject.layer, destinationLayer))
             {
@@ -112,13 +125,12 @@ public class DragAndDropUI : MonoBehaviour, IPointerDownHandler, IDragHandler, I
             {
                 SetTransform(raycastResult.gameObject.transform);
                 ItemToCraft.itemIsCorrect?.Invoke(itemName); // Check if the item is correct
+                //Debug.Log($"Checking Item: {itemName}");
+                //GameManager.itemIsCorrect?.Invoke(itemName);
             }
         }
 
 
-        // Restore the original appearance
-        canvasGroup.alpha = 1f;
-        canvasGroup.blocksRaycasts = true;
     }
 
     private void SetTransform(Transform targetTransform)

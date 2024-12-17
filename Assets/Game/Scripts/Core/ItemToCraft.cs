@@ -7,13 +7,13 @@ using UnityEngine.Events;
 
 public class ItemToCraft : MonoBehaviour
 {
-    [SerializeField] private StartGame startGame;
+    [SerializeField] private GameManager gameManager;
 
     [SerializeField]
     private UnityEvent WinGameLevel;
 
     [SerializeField] 
-    private UnityEvent SetupNewLevel; 
+    private UnityEvent SetupNewLevel;
 
     [SerializeField]
     private CreateItem createItem;
@@ -25,26 +25,25 @@ public class ItemToCraft : MonoBehaviour
 
     public static Action<string> itemIsCorrect;
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        //GameObject instance = Instantiate(itemThatNeedsToBeCrafted);
-
-        ingredient = startGame.startingRecipe.CraftedItems;
-        Debug.LogWarning("Craftable Item");
-        //createItem.CreateNewItem(ingredient, itemContainerTransform, false, true);
-        createItem.CreateNewItemToCraft(ingredient);
-        
-    }
+    public static Action<int> OnCreateItemToCreate;
 
     private void OnEnable()
     {
+        OnCreateItemToCreate += CreatesItemToCraft;
         itemIsCorrect += CheckForCorrectItem;
     }
 
     private void OnDisable()
     {
+        OnCreateItemToCreate -= CreatesItemToCraft;
         itemIsCorrect -= CheckForCorrectItem;
+    }
+
+    private void CreatesItemToCraft(int recipeNumber)
+    {
+        ingredient = gameManager.GetLevelRecipes()[0].CraftedItems;
+
+        createItem.CreateNewItemToCraft(ingredient);
     }
 
     public void CheckForCorrectItem(string itemName)

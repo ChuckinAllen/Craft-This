@@ -11,13 +11,15 @@ public class ApplicationCheck : MonoBehaviour
     [SerializeField] Material Web;
     [SerializeField] Material Mobile;
 
-    [SerializeField] private StartGame startGame;
+    [SerializeField] private GameManager startGame;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         if (Application.isMobilePlatform)
         {
+            Disclamer.gameObject.SetActive(false);
+
             //gameObject.GetComponent<Renderer>().material = Mobile;
 
             applicationTypeText.text = "Application: Mobile";

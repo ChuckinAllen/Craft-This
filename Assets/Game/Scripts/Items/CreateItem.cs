@@ -1,3 +1,4 @@
+
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -16,7 +17,7 @@ namespace PoschPlus.CraftingSystem
         [SerializeField] private Material blackMaterial;
         [SerializeField] private Shader shader;
         [SerializeField] private float defaultItemSize = 0.8f;
-        [SerializeField] private Vector3 defaultScaleOfItemToCreate = new Vector2(100,100);
+        [SerializeField] private Vector3 defaultLocationOfItemToCreate = new Vector3(0f,0f, 0.9f);
         [SerializeField] private Inventory inventory;
         //[SerializeField] private RenderTexture newRenderTexture;
         [SerializeField] private Transform spawnPositionUI;
@@ -31,6 +32,21 @@ namespace PoschPlus.CraftingSystem
 
 
         //[SerializeField] private LayerMask dragLayer; //dropLayer
+
+        public static System.Action<Ingredient,bool> OnCreateNewItem;
+        public static System.Action<Ingredient> OnCreateNewItemToCraft;
+
+        private void OnEnable()
+        {
+            OnCreateNewItem += CreateNewItem;
+            OnCreateNewItemToCraft += CreateNewItemToCraft;
+        }
+
+        private void OnDisable()
+        {
+            OnCreateNewItem -= CreateNewItem;
+            OnCreateNewItemToCraft -= CreateNewItemToCraft;
+        }
 
         public void CreateNewItem(Ingredient ingredient, bool randomPos)
         {
@@ -49,7 +65,7 @@ namespace PoschPlus.CraftingSystem
             ClampToCanvas clampToCanvas = instance.GetComponent<ClampToCanvas>();
             clampToCanvas.canvasRectTransform = itemCanvas.GetComponent<RectTransform>();
 
-            if(disableItemNames == true )
+            if(disableItemNames == true)
             {
                 itemUI.itemName.text = "";
             }
@@ -58,8 +74,6 @@ namespace PoschPlus.CraftingSystem
                 itemUI.itemName.text = ingredient.name;
             }
             
-           
-
             instance.transform.localPosition = Vector3.zero;
 
             if (randomPos)
@@ -147,7 +161,7 @@ namespace PoschPlus.CraftingSystem
                 //item.transform.rotation = new Quaternion(0, 90, 0, 0);
                 item.transform.localScale = new Vector3(defaultItemSize, defaultItemSize, defaultItemSize);
 
-                item.transform.localPosition = new Vector3(0, 0, 0);
+                item.transform.localPosition = defaultLocationOfItemToCreate;
 
                 MeshRenderer meshRenderer = item.GetComponent<MeshRenderer>();
                 SetDarkMaterial(meshRenderer);

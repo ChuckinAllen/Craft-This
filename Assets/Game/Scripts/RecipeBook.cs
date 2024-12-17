@@ -6,5 +6,5 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "New RecipeBook", menuName = "Create RecipeBook")]
 public class RecipeBook : ScriptableObject
 {
-    [SerializeField] Recipe[] Recipes;
+    [SerializeField] List<Recipe> Recipes = new List<Recipe>();
 }
