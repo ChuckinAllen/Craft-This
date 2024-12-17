@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 797419f17349a4345bafbf945d7d327c, type: 3}
+  m_Name: Stick_Sword RecipePage
+  m_EditorClassIdentifier: 
+  Recipes: {fileID: 11400000, guid: 2c998e318f348aa408a8f8b13f7c2988, type: 2}
+  Ingredients:
+  - {fileID: 11400000, guid: 833d7b472dd63b340b334a83398d9a88, type: 2}
+  - {fileID: 11400000, guid: 833d7b472dd63b340b334a83398d9a88, type: 2}
+  - {fileID: 11400000, guid: 8f56540ddb7b65e47a0a4f5cd49a5ab5, type: 2}

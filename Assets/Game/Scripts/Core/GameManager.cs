@@ -9,12 +9,12 @@ using UnityEngine.Events;
 public class GameManager : MonoBehaviour
 {
     [Title("Game Setup")]
-    [SerializeField] private List<Recipe> LevelRecipes = new List<Recipe>();
+    //[SerializeField] private List<Recipe> LevelRecipes = new List<Recipe>();
 
-    [SerializeField] private List<Ingredient> startingIngredentList
-        = new List<Ingredient>(); //CreateStartingIngredentList
+    //[SerializeField] private List<Ingredient> startingIngredentList
+    //    = new List<Ingredient>(); //CreateStartingIngredentList
 
-    [SerializeField] private List<IngredientBook> ingredientBook = new List<IngredientBook>();
+    [SerializeField] private List<RecipePage> recipePage = new List<RecipePage>();
 
     [SerializeField] private int spawnPosOffset = 20;
 
@@ -29,7 +29,8 @@ public class GameManager : MonoBehaviour
 
     public static Action<string> itemIsCorrect;
 
-    private Ingredient ingredient;
+    [SerializeField, ReadOnly]
+    private Recipe recipe;
 
     private void OnEnable()
     {
@@ -43,45 +44,52 @@ public class GameManager : MonoBehaviour
 
     public void StartTheGame()
     {
-        foreach (var ingredent in startingIngredentList)
+        foreach (var ingredent in recipePage[0].Ingredients)
         {
-            SetupItems(0, true, ingredent);
+            SetupItems(true, ingredent);
         }
         CreatesItemToCraft(0);
+
+        Debug.LogWarning($"Level Index {currentLevelIndex}");
     }
 
 
 
     public void StartNextLevel()
     {
-        foreach (Ingredient ingredient in ingredientBook[currentLevelIndex].ingredientList)
+        currentLevelIndex++;
+
+        if (currentLevelIndex >= recipePage.Count)
         {
-            if (ingredientBook == null || ingredientBook.Count == 0)
+            currentLevelIndex = 0;
+        }
+
+        Debug.LogWarning($"Level Index {currentLevelIndex}");
+
+        List<Ingredient> ingredients = recipePage[currentLevelIndex].Ingredients;
+
+        foreach (Ingredient ingredient in ingredients)
+        {
+            if (recipePage == null || recipePage.Count == 0)
             {
                 Debug.LogWarning("Ingredient book is empty!");
                 return;
             }
 
-            // Move to the next index
-            currentLevelIndex = (currentLevelIndex + 1) % ingredientBook.Count;
-
-            SetupItems(currentLevelIndex, true, ingredient);
+            SetupItems(true, ingredient);
         }
 
+        
+
+        // Move to the next index
+        //currentLevelIndex = (currentLevelIndex + 1) % recipePage.Count;
+
+        //CreateItem.OnRemoveOldItemToCraft?.Invoke();
+
         CreatesItemToCraft(currentLevelIndex);
-
-        CreateItem.OnRemoveOldItemToCraft?.Invoke();
     }
 
-
-    private void CreatesItemToCraft(int recipeNumber)
-    {
-        ingredient = LevelRecipes[recipeNumber].CraftedItems;
-
-        CreateItem.OnCreateNewItemToCraft?.Invoke(ingredient);
-    }
-
-    private void SetupItems(int recipeNumber, bool randomPos, Ingredient ingredient)
+    private void SetupItems(bool randomPos, Ingredient ingredient)
     {
         var pos = transform.position.x + spawnPosOffset;
 
@@ -90,9 +98,22 @@ public class GameManager : MonoBehaviour
         CreateItem.OnCreateNewItem?.Invoke(ingredient, randomPos);
     }
 
+    private void CreatesItemToCraft(int recipeNumber)
+    {
+        recipe = recipePage[recipeNumber].Recipes;
+
+        Crafting.OnUpdateRecipe?.Invoke(recipe);
+
+        Debug.Log(recipe);
+
+        CreateItem.OnCreateNewItemToCraft?.Invoke(recipe.CraftedItems);
+    }
+
+
+
     public void CheckForCorrectItem(string itemName)
     {
-        if (itemName == ingredient.name)
+        if (itemName == recipe.CraftedItems.name)
         {
             Debug.Log("Level Completed");
             WinGameLevel?.Invoke();

@@ -14,7 +14,7 @@ namespace PoschPlus.CraftingSystem
         /// </summary>
         /// 
         [InlineEditor(InlineEditorObjectFieldModes.Foldout)]
-        [SerializeField] private Recipe recipe;
+        [SerializeField] public Recipe recipe;
         [Tooltip("This is the player's inventory, " +
             "if the player interacts with 'WORKBENCH' it should be selected at runtime.")]
         [SerializeField] private Inventory inventory;
@@ -33,6 +33,23 @@ namespace PoschPlus.CraftingSystem
 
         [ShowIf("state", CraftingState.Grid)]
         [SerializeField] private CraftingGrid grid;
+
+        public static Action<Recipe> OnUpdateRecipe;
+
+        private void OnEnable()
+        {
+            OnUpdateRecipe += UpdateRecipe;
+        }
+
+        private void OnDisable()
+        {
+            OnUpdateRecipe -= UpdateRecipe;
+        }
+
+        private void UpdateRecipe(Recipe recipe)
+        {
+            this.recipe = recipe;
+        }
 
         private void Start()
         {
@@ -187,13 +204,13 @@ namespace PoschPlus.CraftingSystem
             }
 
             //ToDo This is a quick fix to reset crafting grid after item is crafted
-            //grid.UpdateCraftingTableSize();
+            grid.UpdateCraftingTableSize();
         }
 
         private void AddCraftedItemToInventory()
         {
             createItem.CreateNewItem(recipe.CraftedItems, false);
-            Debug.LogWarning("Added crafted item to inventory.");
+            //Debug.Log("Added crafted item to inventory.");
         }
 
         private void CraftInWorld()

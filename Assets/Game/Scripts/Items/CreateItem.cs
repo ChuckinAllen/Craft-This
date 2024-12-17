@@ -1,8 +1,6 @@
-
-using TMPro;
+using Sirenix.OdinInspector;
 using UnityEngine;
-using UnityEngine.UI;
-using UnityEngine.UIElements;
+
 
 //ToDo every time this is called add the item to the playerInvantory
 // or add it to the world.
@@ -37,6 +35,9 @@ namespace PoschPlus.CraftingSystem
         public static System.Action<Ingredient> OnCreateNewItemToCraft;
 
         public static System.Action OnRemoveOldItemToCraft;
+
+        [SerializeField, ReadOnly] 
+        private GameObject lastItemCrafted;
 
         private void OnEnable()
         {
@@ -97,10 +98,7 @@ namespace PoschPlus.CraftingSystem
             item.transform.localScale = new Vector3(defaultItemSize, defaultItemSize, defaultItemSize);
 
             MeshRenderer meshRenderer = item.GetComponent<MeshRenderer>();
-            Debug.Log(meshRenderer);
-
             Material material = ingredient.Material;
-            Debug.Log(material);
 
             SetMaterial(meshRenderer, material);
         }
@@ -132,7 +130,9 @@ namespace PoschPlus.CraftingSystem
 
         public void CreateNewItemToCraft(Ingredient ingredient)
         {
-            inventory.SetCraftableItemToInvantoryToStore(ingredient);
+            RemoveOldItemToCraft();
+
+            //inventory.SetCraftableItemToInvantoryToStore(ingredient);
 
             GameObject instance = Instantiate(itemPrefabUI, itemToCraftSpawnPosition);
             instance.name = ingredient.name;
@@ -156,13 +156,23 @@ namespace PoschPlus.CraftingSystem
                 MeshRenderer meshRenderer = item.GetComponent<MeshRenderer>();
                 SetDarkMaterial(meshRenderer);
             }
+
+            lastItemCrafted = instance;
         }
 
         private void RemoveOldItemToCraft()
         {
-            inventory.SetCraftableItemToInvantoryToStore(null);
+            Debug.LogWarning("Old Items Removed");
 
-            itemToCraftSpawnPosition.GetChild(0).gameObject.SetActive(false);
+            if(lastItemCrafted != null)
+            {
+                Debug.LogWarning(lastItemCrafted.name);
+                Destroy(lastItemCrafted);
+            }
+            
+            //inventory.SetCraftableItemToInvantoryToStore(null);
+
+            //itemToCraftSpawnPosition.GetChild(0).gameObject.SetActive(false);
         }
 
         private void SetDarkMaterial(MeshRenderer meshRenderer)

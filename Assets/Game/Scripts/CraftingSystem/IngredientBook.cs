@@ -7,5 +7,5 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "New Ingredent Book", menuName = "Create Ingredent Book")]
 public class IngredientBook : ScriptableObject
 {
-    [ShowInInspector] public List<Ingredient> ingredientList;
+    [ShowInInspector] public List<Ingredient> ingredientList = new List<Ingredient>();
 }
