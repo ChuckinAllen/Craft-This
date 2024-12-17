@@ -25,24 +25,29 @@ public class GameManager : MonoBehaviour
     private UnityEvent SetupNewLevel;
 
     private int currentLevelIndex = 0;
-    private Ingredient ingredent;
-
     private float offSet;
 
     public static Action<string> itemIsCorrect;
 
-    public List<Recipe> GetLevelRecipes()
+    private Ingredient ingredient;
+
+    private void OnEnable()
     {
-        return LevelRecipes;
+        itemIsCorrect += CheckForCorrectItem;
+    }
+    private void OnDisable()
+    {
+        itemIsCorrect -= CheckForCorrectItem;
     }
 
-    //Starts the game once called from Device checker
+
     public void StartTheGame()
     {
         foreach (var ingredent in startingIngredentList)
         {
             SetupItems(0, true, ingredent);
         }
+        CreatesItemToCraft(0);
     }
 
 
@@ -65,30 +70,31 @@ public class GameManager : MonoBehaviour
             //SetupItemToCraft(0);
         }
 
-        
+        //ItemToCraft.OnCreateItemToCreate?.Invoke(recipeNumber);
+        CreatesItemToCraft(currentLevelIndex);
     }
 
-    private void SetupItems(int recipeNumber, bool randomPos, Ingredient ingredent)
+
+    private void CreatesItemToCraft(int recipeNumber)
+    {
+        ingredient = LevelRecipes[recipeNumber].CraftedItems;
+
+        //createItem.CreateNewItemToCraft(ingredient);
+        CreateItem.OnCreateNewItemToCraft?.Invoke(ingredient);
+    }
+
+    private void SetupItems(int recipeNumber, bool randomPos, Ingredient ingredient)
     {
         var pos = transform.position.x + spawnPosOffset;
 
         offSet += pos;
 
-
-        ItemToCraft.OnCreateItemToCreate?.Invoke(recipeNumber);
-
-        CreateItem.OnCreateNewItem?.Invoke(ingredent, randomPos);
-    }
-
-    private void SetupItemToCraft(int recipeNumber)
-    {
-        this.ingredent = GetLevelRecipes()[recipeNumber].CraftedItems;
-        CreateItem.OnCreateNewItemToCraft?.Invoke(this.ingredent);
+        CreateItem.OnCreateNewItem?.Invoke(ingredient, randomPos);
     }
 
     public void CheckForCorrectItem(string itemName)
     {
-        if (itemName == ingredent.name)
+        if (itemName == ingredient.name)
         {
             Debug.Log("Level Completed");
             WinGameLevel?.Invoke();

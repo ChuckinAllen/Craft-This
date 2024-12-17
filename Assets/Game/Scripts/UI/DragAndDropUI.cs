@@ -124,9 +124,9 @@ public class DragAndDropUI : MonoBehaviour, IPointerDownHandler, IDragHandler, I
             else if (IsLayer(raycastResult.gameObject.layer, itemToCraftLayer))
             {
                 SetTransform(raycastResult.gameObject.transform);
-                ItemToCraft.itemIsCorrect?.Invoke(itemName); // Check if the item is correct
+                //ItemToCraft.itemIsCorrect?.Invoke(itemName); // Check if the item is correct
                 //Debug.Log($"Checking Item: {itemName}");
-                //GameManager.itemIsCorrect?.Invoke(itemName);
+                GameManager.itemIsCorrect?.Invoke(itemName);
             }
         }
 

@@ -140,7 +140,10 @@ namespace PoschPlus.CraftingSystem
 
         public void CreateNewItemToCraft(Ingredient ingredient)
         {
-            inventory.AddItemToInventory(ingredient);
+            Debug.LogWarning(ingredient);
+
+            //inventory.AddItemToInventory(ingredient);
+            inventory.SetCraftableItemToInvantoryToStore(ingredient);
 
             GameObject instance = Instantiate(itemPrefabUI, itemToCraftSpawnPosition);
             instance.name = ingredient.name;

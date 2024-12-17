@@ -23,27 +23,27 @@ public class ItemToCraft : MonoBehaviour
     [SerializeField]
     public Transform itemContainerTransform;
 
-    public static Action<string> itemIsCorrect;
+    //public static Action<string> itemIsCorrect;
 
-    public static Action<int> OnCreateItemToCreate;
+    //public static Action<int> OnCreateItemToCreate;
 
     private void OnEnable()
     {
-        OnCreateItemToCreate += CreatesItemToCraft;
-        itemIsCorrect += CheckForCorrectItem;
+        //OnCreateItemToCreate += CreatesItemToCraft;
+        //itemIsCorrect += CheckForCorrectItem;
     }
 
     private void OnDisable()
     {
-        OnCreateItemToCreate -= CreatesItemToCraft;
-        itemIsCorrect -= CheckForCorrectItem;
+        //OnCreateItemToCreate -= CreatesItemToCraft;
+        //itemIsCorrect -= CheckForCorrectItem;
     }
 
     private void CreatesItemToCraft(int recipeNumber)
     {
-        ingredient = gameManager.GetLevelRecipes()[0].CraftedItems;
+        //ingredient = gameManager.GetLevelRecipes()[recipeNumber].CraftedItems;
 
-        createItem.CreateNewItemToCraft(ingredient);
+        //createItem.CreateNewItemToCraft(ingredient);
     }
 
     public void CheckForCorrectItem(string itemName)

@@ -46,6 +46,21 @@ namespace PoschPlus.CraftingSystem
             }
         }
 
+
+        [field: SerializeField]
+        [field: ReadOnly]
+        private Ingredient storedCraftableItem;
+
+        public void SetCraftableItemToInvantoryToStore(Ingredient data)
+        {
+            storedCraftableItem = data;
+        }
+
+        public Ingredient GetCraftableItemToInvantoryToStore()
+        {
+            return storedCraftableItem;
+        }
+
         [field: SerializeField]
         [field: ReadOnly]
         public List<Items> StoredInventoryItems { get; private set; } = new List<Items>();
