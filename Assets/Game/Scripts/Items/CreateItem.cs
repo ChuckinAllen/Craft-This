@@ -36,26 +36,30 @@ namespace PoschPlus.CraftingSystem
         public static System.Action<Ingredient,bool> OnCreateNewItem;
         public static System.Action<Ingredient> OnCreateNewItemToCraft;
 
+        public static System.Action OnRemoveOldItemToCraft;
+
         private void OnEnable()
         {
             OnCreateNewItem += CreateNewItem;
             OnCreateNewItemToCraft += CreateNewItemToCraft;
+
+            OnRemoveOldItemToCraft += RemoveOldItemToCraft;
         }
 
         private void OnDisable()
         {
             OnCreateNewItem -= CreateNewItem;
             OnCreateNewItemToCraft -= CreateNewItemToCraft;
+
+            OnRemoveOldItemToCraft -= RemoveOldItemToCraft;
         }
 
         public void CreateNewItem(Ingredient ingredient, bool randomPos)
         {
             GameObject instance = Instantiate(itemPrefabUI, spawnPositionUI);
             instance.name = ingredient.name;
-            Debug.Log($"Item name: {instance.name}");
 
             inventory.AddItemToInventory(ingredient);
-
             Item itemData = instance.AddComponent<Item>();
             itemData.UpdateItemData(ingredient);
 
@@ -86,17 +90,11 @@ namespace PoschPlus.CraftingSystem
                 Debug.Log($"Model:{ingredient.Model}");
                 return;
             }
+
             GameObject item = Instantiate(ingredient.Model);
             item.transform.parent = itemUI.itemOrImageTransform;
-            Debug.Log($"Parent {item.transform.parent}");
-
             item.transform.localPosition = Vector3.zero;
-            Debug.Log($"Local Pos {item.transform.localPosition}");
-            Debug.Log($"Global Pos {item.transform.position}");
-
             item.transform.localScale = new Vector3(defaultItemSize, defaultItemSize, defaultItemSize);
-            Debug.Log($"local Scale {item.transform.localScale}");
-            Debug.Log($"Global Scale {item.transform.lossyScale}");
 
             MeshRenderer meshRenderer = item.GetComponent<MeshRenderer>();
             Debug.Log(meshRenderer);
@@ -105,12 +103,6 @@ namespace PoschPlus.CraftingSystem
             Debug.Log(material);
 
             SetMaterial(meshRenderer, material);
-
-            if (randomPos == false)
-            {
-                //item.transform.localPosition = new Vector3(0, -0.5f, 0);
-                //item.transform.rotation = new Quaternion(0, 90, 0, 0);
-            }
         }
 
         private void SetItemUIPosition(Vector2 pos, GameObject instance, bool randomPos)
@@ -124,7 +116,7 @@ namespace PoschPlus.CraftingSystem
                 Vector2 min = canvasRectTransform.rect.min;
                 Vector2 max = canvasRectTransform.rect.max;
 
-                // Generate random position within canvas bounds
+                // Generate random position in bounds of canvas 
                 float randomX = Random.Range(min.x, max.x);
                 float randomY = Random.Range(min.y, max.y);
 
@@ -140,9 +132,6 @@ namespace PoschPlus.CraftingSystem
 
         public void CreateNewItemToCraft(Ingredient ingredient)
         {
-            Debug.LogWarning(ingredient);
-
-            //inventory.AddItemToInventory(ingredient);
             inventory.SetCraftableItemToInvantoryToStore(ingredient);
 
             GameObject instance = Instantiate(itemPrefabUI, itemToCraftSpawnPosition);
@@ -161,9 +150,7 @@ namespace PoschPlus.CraftingSystem
                 itemUI.itemName.enabled = false;
 
                 item.transform.parent = itemUI.itemOrImageTransform;
-                //item.transform.rotation = new Quaternion(0, 90, 0, 0);
                 item.transform.localScale = new Vector3(defaultItemSize, defaultItemSize, defaultItemSize);
-
                 item.transform.localPosition = defaultLocationOfItemToCreate;
 
                 MeshRenderer meshRenderer = item.GetComponent<MeshRenderer>();
@@ -171,79 +158,21 @@ namespace PoschPlus.CraftingSystem
             }
         }
 
+        private void RemoveOldItemToCraft()
+        {
+            inventory.SetCraftableItemToInvantoryToStore(null);
+
+            itemToCraftSpawnPosition.GetChild(0).gameObject.SetActive(false);
+        }
+
         private void SetDarkMaterial(MeshRenderer meshRenderer)
         {
-            // Create a new material with a black color
-
-            //Shader localShader = Shader.Find("Universal Render Pipeline/Lit");
-            //Material blackMaterial = new Material(localShader);
-            //blackMaterial.color = Color.black;
-
-            // Set the material of the MeshRenderer to the black material
             meshRenderer.material = blackMaterial;
         }
 
         private void SetMaterial(MeshRenderer meshRenderer, Material material)
         {
             meshRenderer.material = material;
-        }
-
-        private GameObject SpawnNewItemUI(Ingredient ingredient, Vector2 pos,
-            RenderTexture renderTexture, bool randomPos)
-        {
-            GameObject instance = CreateUI(ingredient);
-
-            SetItemUIPositionOld(pos, instance, randomPos);
-
-            UpdateUI(ingredient, renderTexture, instance);
-
-            return instance;
-        }
-
-
-        private GameObject CreateUI(Ingredient ingredient)
-        {
-            GameObject instance = Instantiate(itemPrefabUI);
-            instance.transform.SetParent(spawnPositionUI);
-            instance.GetComponent<DragAndDropUI>().parentTransform = spawnPositionUI;
-            instance.name = ingredient.name;
-            return instance;
-        }
-
-        private void UpdateUI(Ingredient ingredient, RenderTexture renderTexture, GameObject instance)
-        {
-            ItemUI imageUI = instance.GetComponent<ItemUI>();
-            var imageTransform = imageUI.itemOrImageTransform;
-            imageUI.itemName.text = ingredient.name;
-            imageTransform.GetComponent<RawImage>().texture = renderTexture;
-        }
-
-        private void SetItemUIPositionOld(Vector2 pos, GameObject instance, bool randomPos)
-        {
-            if (randomPos)
-            {
-                Vector3 localPosition = itemCanvas.transform.localPosition;
-
-                instance.transform.localPosition = GetRandomPosition(localPosition);
-            }
-            else
-            {
-                instance.transform.position = pos;
-            }
-        }
-
-        private Vector2 GetRandomPosition(Vector2 localPosition)
-        {
-            float posX = localPosition.x;
-            float posY = localPosition.y;
-
-
-            float randomX = Random.Range(0, posX);
-            float randomY = Random.Range(0, posY);
-
-            var pos = new Vector2(randomX, randomY);
-
-            return pos;
         }
     }
 }

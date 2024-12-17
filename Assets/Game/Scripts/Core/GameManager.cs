@@ -66,12 +66,11 @@ public class GameManager : MonoBehaviour
             currentLevelIndex = (currentLevelIndex + 1) % ingredientBook.Count;
 
             SetupItems(currentLevelIndex, true, ingredient);
-
-            //SetupItemToCraft(0);
         }
 
-        //ItemToCraft.OnCreateItemToCreate?.Invoke(recipeNumber);
         CreatesItemToCraft(currentLevelIndex);
+
+        CreateItem.OnRemoveOldItemToCraft?.Invoke();
     }
 
 
@@ -79,7 +78,6 @@ public class GameManager : MonoBehaviour
     {
         ingredient = LevelRecipes[recipeNumber].CraftedItems;
 
-        //createItem.CreateNewItemToCraft(ingredient);
         CreateItem.OnCreateNewItemToCraft?.Invoke(ingredient);
     }
 

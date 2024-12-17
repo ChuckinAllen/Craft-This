@@ -34,18 +34,14 @@ public class DragAndDropUI : MonoBehaviour, IPointerDownHandler, IDragHandler, I
 
     private void Awake()
     {
-        //canvas = FindAnyObjectByType<Canvas>(); // Get the canvas in the scene
+        clampToCanvas = GetComponent<ClampToCanvas>();
         rectTransform = GetComponent<RectTransform>();
 
-        // Add and initialize the CanvasGroup if it doesn't exist
-        canvasGroup = gameObject.AddComponent<CanvasGroup>().GetComponent<CanvasGroup>();
-
-        //grid = FindFirstObjectByType<CraftingGrid>();
         grid = FindAnyObjectByType<CraftingGrid>();
 
-        parentTransform = transform.parent;
+        canvasGroup = gameObject.AddComponent<CanvasGroup>().GetComponent<CanvasGroup>();
 
-        clampToCanvas = GetComponent<ClampToCanvas>();
+        parentTransform = transform.parent;
     }
 
     public void OnPointerDown(PointerEventData eventData)
@@ -94,7 +90,6 @@ public class DragAndDropUI : MonoBehaviour, IPointerDownHandler, IDragHandler, I
     public void OnPointerUp(PointerEventData eventData)
     {
         clampToCanvas.enabled = false;
-        // Restore the original appearance
         canvasGroup.alpha = 1f;
         canvasGroup.blocksRaycasts = true;
 
@@ -102,12 +97,10 @@ public class DragAndDropUI : MonoBehaviour, IPointerDownHandler, IDragHandler, I
         {
             // Raycast to detect where the item is dropped
             RaycastResult raycastResult = eventData.pointerCurrentRaycast;
-
-            //Debug.Log(raycastResult.gameObject.name);
+            if(raycastResult.gameObject == null) { return; }
 
             string itemName = gameObject.name;
 
-            if(raycastResult.gameObject == null) { return; }
             // Handle drop on the destination layer
             if (IsLayer(raycastResult.gameObject.layer, destinationLayer))
             {
@@ -120,17 +113,14 @@ public class DragAndDropUI : MonoBehaviour, IPointerDownHandler, IDragHandler, I
                 grid.AddGameObjectsToGridUI(itemName, gridPosition);
                 grid.AddItemToGridUI(gameObject);
             }
+
             // Handle drop on the item-to-craft layer
             else if (IsLayer(raycastResult.gameObject.layer, itemToCraftLayer))
             {
                 SetTransform(raycastResult.gameObject.transform);
-                //ItemToCraft.itemIsCorrect?.Invoke(itemName); // Check if the item is correct
-                //Debug.Log($"Checking Item: {itemName}");
                 GameManager.itemIsCorrect?.Invoke(itemName);
             }
         }
-
-
     }
 
     private void SetTransform(Transform targetTransform)

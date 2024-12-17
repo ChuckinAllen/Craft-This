@@ -117,11 +117,10 @@ namespace PoschPlus.CraftingSystem
                     if (isMatchingRecipe)
                     {
                         Debug.Log("Crafted Item!");
+
                         // Craft the item and remove the ingredients from the grid and inventory
                         RemoveIngredientsFromGrid();
-
                         DeleteItemsFromUI();
-
                         AddCraftedItemToInventory();
                     }
                     else
@@ -160,9 +159,7 @@ namespace PoschPlus.CraftingSystem
                                                .FirstOrDefault(i => i.Data == ingredient);
                         if (item != null)
                         {
-                            RemoveItemsFromInventory(1, item); //ToDo Bug With UI grid ..need to fix
-
-                            
+                            RemoveItemsFromInventory(1, item);
                         }
                     }
                 }
@@ -195,16 +192,12 @@ namespace PoschPlus.CraftingSystem
 
         private void AddCraftedItemToInventory()
         {
-            // Add the newly crafted item to the player's inventory
-
-            //createItem.CreateNewItem(recipe.CraftedItems, spawnPos, false, false);
             createItem.CreateNewItem(recipe.CraftedItems, false);
             Debug.LogWarning("Added crafted item to inventory.");
         }
 
         private void CraftInWorld()
         {
-            // Logic for crafting in the game world
             Debug.Log("Crafting in the world is not yet implemented.");
         }
     }

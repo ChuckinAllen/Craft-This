@@ -28,8 +28,6 @@ public class CraftingGrid : MonoBehaviour
     [ShowInInspector]
     private List<GameObject> itemsStoredToGridUI = new List<GameObject>();
 
-    //[SerializeField] public int selectionIndex = 0;
-
     private void Start()
     {
         UpdateCraftingTableSize();
@@ -78,8 +76,6 @@ public class CraftingGrid : MonoBehaviour
     {
         for (int i = 0; i < inventory.StoredInventoryItems.Count; i++)
         {
-            //Debug.Log(inventory.StoredInventoryItems[i].Name);
-
             if (inventory.StoredInventoryItems[i].Name == itemName)
             {
                 Grid[(int)gridPosition.x - 1, (int)gridPosition.y - 1] = null;
@@ -91,9 +87,6 @@ public class CraftingGrid : MonoBehaviour
 
     private Ingredient DrawGridElements(Rect rect, Ingredient ingredient)
     {
-        //Debug.Log(ingredient);
-
-        // Cache the inventory items
         storedInventoryItems = inventory.StoredInventoryItems;
 
         Ingredient previousIngredient = ingredient;
@@ -133,7 +126,6 @@ public class CraftingGrid : MonoBehaviour
             // If an item is selected and the count is greater than 0,
             // decrease the count and update the ingredient
 
-            //&& storedInventoryItems[i].Name == itemNames[selectedIndex]
             if (storedInventoryItems[i].Name == itemNames[selectedIndex])
             {
                 //int itemCount = storedInventoryItems[i].Count;
