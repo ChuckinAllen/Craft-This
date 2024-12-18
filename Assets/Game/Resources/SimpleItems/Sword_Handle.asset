@@ -12,6 +12,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b85eb08e8abd4fc46935180899613e9d, type: 3}
   m_Name: Sword_Handle
   m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes: []
   <ItemMesh>k__BackingField: {fileID: 4912848177570868238, guid: c8056f847eed80d429431d9cb134a5ab, type: 3}
-  <Material>k__BackingField: {fileID: -2073617408647400708, guid: c8056f847eed80d429431d9cb134a5ab, type: 3}
+  <Material>k__BackingField: {fileID: 2100000, guid: 4f9cbc8f644cbb6429b70838492be31a, type: 2}
+  Model: {fileID: 0}
   typeData: 1
+  allowedFolderPath: Assets/Models

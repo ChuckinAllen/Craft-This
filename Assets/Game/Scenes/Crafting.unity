@@ -3730,6 +3730,29 @@ Light:
   m_CorrespondingSourceObject: {fileID: 4088679413221433059, guid: d601d4a90ee7f094898fc82adb351bcd, type: 3}
   m_PrefabInstance: {fileID: 1063395511}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1063395514
+MonoBehaviour:
+  m_ObjectHideFlags: 8
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 474bcb49853aa07438625e644c072ee6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Version: 3
+  m_UsePipelineSettings: 1
+  m_AdditionalLightsShadowResolutionTier: 2
+  m_LightLayerMask: 1
+  m_RenderingLayers: 1
+  m_CustomShadowLayers: 0
+  m_ShadowLayerMask: 1
+  m_ShadowRenderingLayers: 1
+  m_LightCookieSize: {x: 1, y: 1}
+  m_LightCookieOffset: {x: 0, y: 0}
+  m_SoftShadowQuality: 0
 --- !u!224 &1078399008 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 1264933202937722947, guid: df57d006566d3d34b8ac11e56858bccd, type: 3}
@@ -3794,6 +3817,12 @@ MonoBehaviour:
   ingredientBook:
   - {fileID: 11400000, guid: 9fc822a56988c754cbb859decffaa111, type: 2}
   spawnPosOffset: 20
+  WinGameLevel:
+    m_PersistentCalls:
+      m_Calls: []
+  SetupNewLevel:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!114 &1091898822
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5201,7 +5230,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0ff71d31b2a3e4345a4b180c66b0d638, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  blackMaterial: {fileID: 2100000, guid: ba20a30ef0375f84f9ef98f897c4bf15, type: 2}
+  blackMaterial: {fileID: 0}
   shader: {fileID: 0}
   defaultItemSize: 0.5
   defaultLocationOfItemToCreate: {x: 0, y: 0, z: 0.9}
